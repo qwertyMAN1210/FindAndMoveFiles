@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter.filedialog import *
 from tkinter.messagebox import *
+import os
+import shutil
 
 TITLE = 'File transfer'
 WIDTH = 500
@@ -12,6 +14,8 @@ SELECT_BUTTON_COLOR = 'yellow'
 
 open_folder = ''
 save_folder = ''
+with open('format_filter.txt', encoding='UTF-8') as file:
+    formats = file.read().split()
 
 
 def select_open_folder():
@@ -32,6 +36,21 @@ def start():
     if open_folder != '' and save_folder != '' and askyesno(title='Message', message='Are you sure??'):
         progress_label['bg'] = 'green'
         progress_label['text'] = 'start'
+        filenamelist = []
+        filelist = []
+        for root, dirs, files in os.walk(open_folder):
+            for file in files:
+                for f in formats:
+                    if file.endswith(f) and file not in filenamelist:
+                        filenamelist.append(file)
+                        filelist.append(os.path.join(root, file))
+                        progress_label['text'] = file
+        max_files = len(filenamelist)
+        for i in range(max_files):
+            file = filelist[i]
+            progress_label['text'] = f'move: {filenamelist[i]}\n{i + 1}/{max_files}'
+            shutil.move(file, save_folder)
+        progress_label['text'] = 'finish'
     else:
         progress_label['bg'] = 'red'
         progress_label['text'] = 'please select directories'
