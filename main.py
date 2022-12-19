@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter.filedialog import *
 from tkinter.messagebox import *
 
-TITLE = 'Переносчик файлов'
+TITLE = 'File transfer'
 WIDTH = 500
 HEIGHT = 150
 BACKGROUND_COLOR = 'purple'
@@ -29,7 +29,7 @@ def select_save_folder():
 
 
 def start():
-    if open_folder != '' and save_folder != '' and askyesno(title='Message', message='Do you sore?'):
+    if open_folder != '' and save_folder != '' and askyesno(title='Message', message='Are you sure??'):
         progress_label['bg'] = 'green'
         progress_label['text'] = 'start'
     else:
