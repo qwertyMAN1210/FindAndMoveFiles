@@ -1,3 +1,10 @@
 mp4
 mp3
+avi
+AVI
 wav
+wmv
+webm
+flv
+mkv
+mpg

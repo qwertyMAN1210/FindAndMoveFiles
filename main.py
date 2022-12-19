@@ -36,6 +36,7 @@ def start():
     if open_folder != '' and save_folder != '' and askyesno(title='Message', message='Are you sure??'):
         progress_label['bg'] = 'green'
         progress_label['text'] = 'start'
+        current_formats = []
         filenamelist = []
         filelist = []
         for root, dirs, files in os.walk(open_folder):
@@ -45,12 +46,15 @@ def start():
                         filenamelist.append(file)
                         filelist.append(os.path.join(root, file))
                         progress_label['text'] = file
+                _, ext = os.path.splitext(file)
+                if ext not in current_formats:
+                    current_formats.append(ext)
         max_files = len(filenamelist)
         for i in range(max_files):
             file = filelist[i]
             progress_label['text'] = f'move: {filenamelist[i]}\n{i + 1}/{max_files}'
             shutil.move(file, save_folder)
-        progress_label['text'] = 'finish'
+        progress_label['text'] = f'finish\nformats: {current_formats}'
     else:
         progress_label['bg'] = 'red'
         progress_label['text'] = 'please select directories'
